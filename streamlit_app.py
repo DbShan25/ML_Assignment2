@@ -8,6 +8,8 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 from pathlib import Path
+from sklearn.metrics import confusion_matrix
+import numpy as np
 
 from sklearn.metrics import (
     accuracy_score,
@@ -137,27 +139,41 @@ if uploaded_file is not None:
     # RIGHT: Compact Confusion Matrix (2x2)
     with right_col:
         st.markdown("### 📌 Confusion Matrix")
-
-        fig, ax = plt.subplots(figsize=(1.5, 1.5)) 
-
-        ConfusionMatrixDisplay.from_predictions(
-            y,
-            y_pred,
-            ax=ax,
-            colorbar=False,
-            values_format="d",
-            display_labels=["No Attrition", "Attrition"]
-        )
-
-        ax.set_title("Confusion Matrix", fontsize=8)
-        ax.set_xlabel("")
-        ax.set_ylabel("")
-        ax.tick_params(axis="both", labelsize=7)
-
-        for text in ax.texts:
-            text.set_fontsize(9)
-
+        
+        cm = confusion_matrix(y, y_pred)
+        
+        tn, fp, fn, tp = cm.ravel()
+        
+        fig, ax = plt.subplots(figsize=(2.2, 2.2))
+        
+        im = ax.imshow(cm, cmap="viridis")
+        
+        labels = [
+            [f"TN\n{tn}", f"FP\n{fp}"],
+            [f"FN\n{fn}", f"TP\n{tp}"]
+        ]
+        
+        for i in range(2):
+            for j in range(2):
+                ax.text(
+                    j, i, labels[i][j],
+                    ha="center", va="center",
+                    color="white", fontsize=9, fontweight="bold"
+                )
+        
+        ax.set_xticks([0, 1])
+        ax.set_yticks([0, 1])
+        
+        ax.set_xticklabels(["No Attrition", "Attrition"], fontsize=8)
+        ax.set_yticklabels(["No Attrition", "Attrition"], fontsize=8)
+        
+        ax.set_xlabel("Predicted Label", fontsize=8)
+        ax.set_ylabel("Actual Label", fontsize=8)
+        
+        ax.set_title("Confusion Matrix", fontsize=9)
+        
         st.pyplot(fig, use_container_width=False)
+
 
     # -------------------------------------------------
     # Classification Report (Table Format)
