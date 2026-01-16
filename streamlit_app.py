@@ -29,7 +29,6 @@ st.set_page_config(
 )
 
 st.title("🏢 Employee Attrition – ML Model Demonstration")
-st.write("✅ App initialized successfully")
 
 # -----------------------------------------------------
 # Path setup (Cloud safe)
@@ -42,9 +41,8 @@ MODEL_DIR = BASE_DIR / "model"
 # -----------------------------------------------------
 try:
     scaler = joblib.load(MODEL_DIR / "scaler.pkl")
-    st.success("Scaler loaded")
 except Exception as e:
-    st.error(f"Scaler loading failed: {e}")
+    st.error(f"❌ Scaler loading failed: {e}")
     st.stop()
 
 # -----------------------------------------------------
@@ -59,17 +57,18 @@ model_map = {
     "XGBoost": "xgboost.pkl"
 }
 
-selected_model = st.selectbox("Select ML Model", list(model_map.keys()))
+selected_model = st.selectbox(
+    "Select ML Model",
+    list(model_map.keys())
+)
 
 # -----------------------------------------------------
 # Load selected model safely
 # -----------------------------------------------------
 try:
-    model_path = MODEL_DIR / model_map[selected_model]
-    model = joblib.load(model_path)
-    st.success(f"{selected_model} loaded")
+    model = joblib.load(MODEL_DIR / model_map[selected_model])
 except Exception as e:
-    st.error(f"Model loading failed: {e}")
+    st.error(f"❌ Model loading failed: {e}")
     st.stop()
 
 # -----------------------------------------------------
@@ -82,7 +81,7 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-    st.success("Dataset uploaded successfully")
+    st.success("✅ Dataset uploaded successfully")
 
     if "Attrition" not in df.columns:
         st.error("CSV file must contain 'Attrition' column")
@@ -107,12 +106,13 @@ if uploaded_file is not None:
     mcc = matthews_corrcoef(y, y_pred)
 
     # -------------------------------------------------
-    # Metrics + Confusion Matrix
+    # Metrics + Confusion Matrix (Side-by-Side)
     # -------------------------------------------------
     st.subheader("📊 Evaluation Results")
 
-    left_col, right_col = st.columns([1, 1.3])
+    left_col, right_col = st.columns([1, 1.2])
 
+    # LEFT: Metrics (Vertical)
     with left_col:
         st.metric("Accuracy", f"{acc:.4f}")
         st.metric("AUC", f"{auc:.4f}")
@@ -121,22 +121,40 @@ if uploaded_file is not None:
         st.metric("F1 Score", f"{f1:.4f}")
         st.metric("MCC", f"{mcc:.4f}")
 
+    # RIGHT: Compact Confusion Matrix (2x2)
     with right_col:
-        fig, ax = plt.subplots(figsize=(3, 3))
+        st.markdown("### 📌 Confusion Matrix")
+
+        fig, ax = plt.subplots(figsize=(2, 2))  # ✅ FINAL SIZE
+
         ConfusionMatrixDisplay.from_predictions(
-            y, y_pred, ax=ax, colorbar=False, values_format="d"
+            y,
+            y_pred,
+            ax=ax,
+            colorbar=False,
+            values_format="d"
         )
-        ax.set_title("Confusion Matrix", fontsize=9)
-        st.pyplot(fig)
+
+        ax.set_title("Confusion Matrix", fontsize=8)
+        ax.set_xlabel("")
+        ax.set_ylabel("")
+        ax.tick_params(axis="both", labelsize=7)
+
+        for text in ax.texts:
+            text.set_fontsize(9)
+
+        st.pyplot(fig, use_container_width=False)
 
     # -------------------------------------------------
-    # Classification Report (Table)
+    # Classification Report (Table Format)
     # -------------------------------------------------
     st.subheader("📄 Classification Report")
 
-    report_df = pd.DataFrame(
-        classification_report(y, y_pred, output_dict=True)
-    ).transpose().round(3)
+    report_df = (
+        pd.DataFrame(classification_report(y, y_pred, output_dict=True))
+        .transpose()
+        .round(3)
+    )
 
     st.dataframe(report_df, use_container_width=True)
 
