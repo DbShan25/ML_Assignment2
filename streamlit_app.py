@@ -138,7 +138,7 @@ if uploaded_file is not None:
     with right_col:
         st.markdown("### 📌 Confusion Matrix")
 
-        fig, ax = plt.subplots(figsize=(1, 1)) 
+        fig, ax = plt.subplots(figsize=(1.5, 1.5)) 
 
         ConfusionMatrixDisplay.from_predictions(
             y,
