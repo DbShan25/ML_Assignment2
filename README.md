@@ -34,5 +34,14 @@ The following six classification models were implemented and evaluated using Acc
 | XGBoost | Comparable to Random Forest with strong generalization and balanced metrics. |
 
 ## Streamlit Deployment
-An interactive Streamlit application was developed to demonstrate model predictions, evaluation metrics, and confusion matrix visualization. The application allows users to upload test data and select different ML models.
+An interactive Streamlit application was developed to demonstrate model predictions, evaluation metrics, and confusion matrix visualization.
 
+A Streamlit web application is developed to:
+- Select ML model
+- Upload test dataset
+- Visualize metrics and confusion matrix
+
+### How to Run
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
