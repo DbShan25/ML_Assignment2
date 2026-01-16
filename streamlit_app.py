@@ -120,10 +120,9 @@ if uploaded_file is not None:
         #st.metric("Recall", f"{rec:.4f}")
         #st.metric("F1 Score", f"{f1:.4f}")
         #st.metric("MCC", f"{mcc:.4f}")
-        st.markdown("### 📈 Evaluation Metrics")
 
         metric_html = f"""
-        <div style="font-size:14px; line-height:1.6;">
+        <div style="font-size:14px; line-height:3.0;">
         <b>Accuracy:</b> {acc:.4f}<br>
         <b>AUC:</b> {auc:.4f}<br>
         <b>Precision:</b> {prec:.4f}<br>
