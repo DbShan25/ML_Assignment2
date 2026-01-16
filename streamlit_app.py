@@ -170,8 +170,6 @@ if uploaded_file is not None:
         ax.set_xlabel("Predicted Label", fontsize=8)
         ax.set_ylabel("Actual Label", fontsize=8)
         
-        ax.set_title("Confusion Matrix", fontsize=9)
-        
         st.pyplot(fig, use_container_width=False)
 
 
@@ -201,3 +199,4 @@ st.markdown(
     Employee Attrition Prediction using Multiple Classification Models
     """
 )
+
