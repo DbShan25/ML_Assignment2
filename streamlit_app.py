@@ -114,12 +114,26 @@ if uploaded_file is not None:
 
     # LEFT: Metrics (Vertical)
     with left_col:
-        st.metric("Accuracy", f"{acc:.4f}")
-        st.metric("AUC", f"{auc:.4f}")
-        st.metric("Precision", f"{prec:.4f}")
-        st.metric("Recall", f"{rec:.4f}")
-        st.metric("F1 Score", f"{f1:.4f}")
-        st.metric("MCC", f"{mcc:.4f}")
+        #st.metric("Accuracy", f"{acc:.4f}")
+        #st.metric("AUC", f"{auc:.4f}")
+        #st.metric("Precision", f"{prec:.4f}")
+        #st.metric("Recall", f"{rec:.4f}")
+        #st.metric("F1 Score", f"{f1:.4f}")
+        #st.metric("MCC", f"{mcc:.4f}")
+        st.markdown("### 📈 Evaluation Metrics")
+
+        metric_html = f"""
+        <div style="font-size:14px; line-height:1.6;">
+        <b>Accuracy:</b> {acc:.4f}<br>
+        <b>AUC:</b> {auc:.4f}<br>
+        <b>Precision:</b> {prec:.4f}<br>
+        <b>Recall:</b> {rec:.4f}<br>
+        <b>F1 Score:</b> {f1:.4f}<br>
+        <b>MCC:</b> {mcc:.4f}
+        </div>
+        """
+
+        st.markdown(metric_html, unsafe_allow_html=True)
 
     # RIGHT: Compact Confusion Matrix (2x2)
     with right_col:
