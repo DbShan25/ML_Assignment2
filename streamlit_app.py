@@ -122,7 +122,7 @@ if uploaded_file is not None:
         #st.metric("MCC", f"{mcc:.4f}")
 
         metric_html = f"""
-        <div style="font-size:14px; line-height:3.0;">
+        <div style="font-size:20px; line-height:3.0;">
         <b>Accuracy:</b> {acc:.4f}<br>
         <b>AUC:</b> {auc:.4f}<br>
         <b>Precision:</b> {prec:.4f}<br>
@@ -138,7 +138,7 @@ if uploaded_file is not None:
     with right_col:
         st.markdown("### 📌 Confusion Matrix")
 
-        fig, ax = plt.subplots(figsize=(2, 2))  # ✅ FINAL SIZE
+        fig, ax = plt.subplots(figsize=(1, 1)) 
 
         ConfusionMatrixDisplay.from_predictions(
             y,
