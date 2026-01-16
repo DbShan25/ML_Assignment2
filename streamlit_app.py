@@ -145,7 +145,8 @@ if uploaded_file is not None:
             y_pred,
             ax=ax,
             colorbar=False,
-            values_format="d"
+            values_format="d",
+            display_labels=["No Attrition", "Attrition"]
         )
 
         ax.set_title("Confusion Matrix", fontsize=8)
